@@ -1,0 +1,2 @@
+# Set the chance of an egg laying when a chicken would normally lay an egg. 0 Disables all egg laying.
+layChance: 0
