@@ -1,2 +1,17 @@
-# Set the chance of an egg laying when a chicken would normally lay an egg. 0 Disables all egg laying.
-layChance: 0
+# The chance a chicken will lay an egg, or something else.
+# 100 = Always lay eggs.
+# 0 = Always lay replacement.
+layChance: 50
+
+# Replacements for eggs, an item for each egg drop from this list will be selected randomly.
+# Valid material names can be found at http://jd.bukkit.org/rb/apidocs/org/bukkit/Material.html
+# AIR is a valid replacement which when paired with layChance 0, will make chickens lay nothing.
+replaceWith: 
+  - CLAY_BRICK
+  - SULPHUR
+  
+# Which worlds should this be enabled in?
+# Unlisted worlds will allow normal egg laying.
+enabled_worlds:
+  - world
+  - world_nether
