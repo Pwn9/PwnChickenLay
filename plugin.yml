@@ -1,6 +1,20 @@
 main: com.pwn9.PwnChickenLay.PwnChickenLay
 name: PwnChickenLay
-version: 0.6
+version: 0.7
 author: tremor77
 description: Take control over Eggsploitation
 website: http://pwn9.com
+commands:
+   pwnlay:
+      description: Execute a PwnChickenLay command
+      usage: /pwnlay <reload|save>
+      permission: pwnlay.pwnlay
+      permission-message: You dont have permission for this command
+permissions:
+  pwnlay.*:
+    description: gives all permissions of PwnChickenLay
+    default: op
+    children:
+        pwnlay.pwnlay: true
+        pwnlay.reload: true 
+        pwnlay.save: true

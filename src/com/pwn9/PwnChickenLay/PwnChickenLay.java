@@ -18,16 +18,17 @@ public class PwnChickenLay extends JavaPlugin
 	public final Logger logger = Logger.getLogger("Minecraft.PwnChickenLay");   	
 	public static List<String> enabledWorlds;
 	public static List<String> replaceWith;
-	public int layChance;
+	public static int layChance;
 	static Random randomNumberGenerator = new Random();
 	
+	@Override
 	public void onEnable() 
 	{
     	this.saveDefaultConfig();
     	new PwnChickenLayItemSpawnListener(this);
-    	PwnChickenLay.enabledWorlds = getConfig().getStringList("enabled_worlds");
-    	this.layChance = getConfig().getInt("layChance");
-    	PwnChickenLay.replaceWith = getConfig().getStringList("replaceWith");
+    	this.loadConfig();
+    	// Command Executor
+    	getCommand("pwnlay").setExecutor(new PwnChickenLayCommands(this));
 	}
 	
 	public void onDisable() 
@@ -76,6 +77,12 @@ public class PwnChickenLay extends JavaPlugin
 	public static boolean isEnabledIn(String world) 
 	{
 		return enabledWorlds.contains(world);
+	}	
+	
+	public void loadConfig() {
+		PwnChickenLay.enabledWorlds = getConfig().getStringList("enabled_worlds");
+		PwnChickenLay.layChance = getConfig().getInt("layChance");
+		PwnChickenLay.replaceWith = getConfig().getStringList("replaceWith");			
 	}	
 	
 }
