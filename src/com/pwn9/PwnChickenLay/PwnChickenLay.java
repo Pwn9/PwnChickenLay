@@ -1,5 +1,6 @@
 package com.pwn9.PwnChickenLay;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -29,6 +30,17 @@ public class PwnChickenLay extends JavaPlugin
     	this.loadConfig();
     	// Command Executor
     	getCommand("pwnlay").setExecutor(new PwnChickenLayCommands(this));
+    	
+		// Start Metrics
+		try 
+		{
+		    MetricsLite metricslite = new MetricsLite(this);
+		    metricslite.start();
+		} 
+		catch (IOException e) 
+		{
+		    // Failed to submit the stats :-(
+		}    	
 	}
 	
 	public void onDisable() 
