@@ -48,7 +48,7 @@ public class PwnChickenLay extends JavaPlugin
 
 	}	
 	
-	public void spawnCheck(ItemSpawnEvent event) 
+	public void spawnCheck(ItemSpawnEvent event, String world) 
 	{
 		if(event.isCancelled()) 
 		{
@@ -73,8 +73,17 @@ public class PwnChickenLay extends JavaPlugin
 				return;
 			}
 		}
-		  	
-    	if (PwnChickenLay.random(layChance)) 
+		
+		if (getConfig().getBoolean("perWorld."+world+".enabled")) {
+			if (PwnChickenLay.random(getConfig().getInt("perWorld."+world+".layChance")))
+			{	
+				List<String> repWith = getConfig().getStringList("perWorld."+world+".replaceWith");		
+	    		String randomReplacement = repWith.get(randomNumberGenerator.nextInt(repWith.size()));     	
+				//event.setCancelled(true);
+				is.setType(Material.getMaterial(randomReplacement));
+			}			
+		}
+		else if (PwnChickenLay.random(layChance)) 
 		{	
     		String randomReplacement = replaceWith.get(randomNumberGenerator.nextInt(replaceWith.size()));     	
 			//event.setCancelled(true);

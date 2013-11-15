@@ -22,7 +22,7 @@ public class PwnChickenLayItemSpawnListener implements Listener
 		World world = event.getLocation().getWorld();
 		if (PwnChickenLay.isEnabledIn(world.getName())) 
 		{
-			plugin.spawnCheck(event);
+			plugin.spawnCheck(event, world.getName());
 		}
 	}  
 }

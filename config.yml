@@ -15,3 +15,17 @@ replaceWith:
 enabled_worlds:
   - world
   - world_nether
+
+# Customized world settings, just add world name, enabled:true, layChance and replaceWith for 
+# the specific world. Any enabled_worlds that are NOT in perWorld, will use the default settings. 
+# Any worlds added to perWorld that are NOT in enabled worlds will still be disabled.
+perWorld:
+  world:
+    enabled: true
+    layChance: 0
+    replaceWith:
+      - DIAMOND
+      - STONE
+      - AIR
+
+    
