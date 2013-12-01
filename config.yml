@@ -28,4 +28,7 @@ perWorld:
       - STONE
       - AIR
 
+# Enable logging (for debugging, generally leave this false unless you are having problems)
+# Note that on production servers with lots of chicken farms this log could get very big!
+debug_log: false
     

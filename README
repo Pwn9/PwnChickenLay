@@ -1,5 +1,6 @@
 PwnChickenLay is a Bukkit plugin that aims to reduce the amount of 
-eggs that chicken farms can lay (or block them entirely).
+eggs that chicken farms can lay (or block them entirely) as well as
+make the chicken egg laying event replaceable with another item.
 
 Plugin development by: tREMor
 

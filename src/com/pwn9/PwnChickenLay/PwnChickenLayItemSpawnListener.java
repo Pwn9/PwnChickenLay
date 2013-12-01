@@ -16,6 +16,7 @@ public class PwnChickenLayItemSpawnListener implements Listener
 	    this.plugin = plugin;
 	}
 
+	// List for the ItemSpawnEvent and then kick it to the spawnCheck function 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onSpawn(ItemSpawnEvent event) 
 	{

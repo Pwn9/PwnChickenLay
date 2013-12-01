@@ -42,12 +42,24 @@ public class PwnChickenLayCommands implements CommandExecutor
               plugin.reloadConfig();
               plugin.loadConfig();
               sender.sendMessage("§cPwnChickenLay: Settings reloaded!");
+				
+              // log if debug_log is enabled
+              if (PwnChickenLay.logEnabled)
+              {		
+				PwnChickenLay.logToFile(sender.getName() + " reloaded the settings.");
+              }	              
            } 
            else if(args[0].equalsIgnoreCase("save")) 
            {
               plugin.saveConfig();
               plugin.loadConfig();
-              sender.sendMessage("§cPwnChickenLay: Config saved!");
+              sender.sendMessage("§cPwnChickenLay: Settings saved!");
+              
+              // log if debug_log is enabled
+              if (PwnChickenLay.logEnabled)
+              {		
+				PwnChickenLay.logToFile(sender.getName() + " saved the settings.");
+              }	              
            }
            else 
            {
@@ -61,5 +73,4 @@ public class PwnChickenLayCommands implements CommandExecutor
 	    }
 	}
 	
- 
 }

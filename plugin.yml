@@ -1,8 +1,8 @@
 main: com.pwn9.PwnChickenLay.PwnChickenLay
 name: PwnChickenLay
-version: 0.9
+version: 1.0
 author: tremor77
-description: Take control over Eggsploitation
+description: Control the chicken egg drop event and replace it with anything you want.
 website: http://pwn9.com
 commands:
    pwnlay:
