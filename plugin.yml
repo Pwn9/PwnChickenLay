@@ -1,6 +1,6 @@
 main: com.pwn9.PwnChickenLay.PwnChickenLay
 name: PwnChickenLay
-version: 1.0
+version: 1.0.1
 author: tremor77
 description: Control the chicken egg drop event and replace it with anything you want.
 website: http://pwn9.com

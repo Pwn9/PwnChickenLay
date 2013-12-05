@@ -8,19 +8,19 @@ layChance: 50
 # AIR is a valid replacement which when paired with layChance 0, will make chickens lay nothing.
 replaceWith: 
   - CLAY_BRICK
-  - SULPHUR
+  - AIR
   
 # Which worlds should this be enabled in?
 # Unlisted worlds will allow normal egg laying.
 enabled_worlds:
-  - world
-  - world_nether
+  - example_world
+  - example_world_nether
 
 # Customized world settings, just add world name, enabled:true, layChance and replaceWith for 
 # the specific world. Any enabled_worlds that are NOT in perWorld, will use the default settings. 
 # Any worlds added to perWorld that are NOT in enabled worlds will still be disabled.
 perWorld:
-  world:
+  example_world:
     enabled: true
     layChance: 0
     replaceWith:
