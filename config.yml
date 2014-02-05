@@ -7,8 +7,8 @@ layChance: 50
 # Valid material names can be found at http://jd.bukkit.org/rb/apidocs/org/bukkit/Material.html
 # AIR is a valid replacement which when paired with layChance 0, will make chickens lay nothing.
 replaceWith: 
-  - CLAY_BRICK
-  - AIR
+  CLAY_BRICK: 1
+  AIR: 10
   
 # Which worlds should this be enabled in?
 # Unlisted worlds will allow normal egg laying.
@@ -24,9 +24,9 @@ perWorld:
     enabled: true
     layChance: 0
     replaceWith:
-      - DIAMOND
-      - STONE
-      - AIR
+      DIAMOND: 1
+      STONE: 30
+      AIR: 5
 
 # Enable logging (for debugging, generally leave this false unless you are having problems)
 # Note that on production servers with lots of chicken farms this log could get very big!

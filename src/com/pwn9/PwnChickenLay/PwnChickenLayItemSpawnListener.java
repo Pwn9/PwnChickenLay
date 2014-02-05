@@ -1,5 +1,6 @@
 package com.pwn9.PwnChickenLay;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Location;
@@ -54,11 +55,21 @@ public class PwnChickenLayItemSpawnListener implements Listener
 		{
 			if (PwnChickenLay.random(plugin.getConfig().getInt("perWorld."+world+".layChance")))
 			{	
-				List<String> repWith = plugin.getConfig().getStringList("perWorld."+world+".replaceWith");		
+				
+				List<String> repWith = new ArrayList<String>();
+				
+				for (String key : plugin.getConfig().getConfigurationSection("perWorld."+world+".replaceWith").getKeys(false))
+				{
+					Integer loop = plugin.getConfig().getInt("perWorld."+world+".replaceWith."+key, 1);
+					for (int x = 0; x < loop; x = x+1)
+					{
+						repWith.add(key);
+					}
+				}
+				
+				// Pick an item from the replacement list randomly
 				String randomReplacement = repWith.get(PwnChickenLay.randomNumberGenerator.nextInt(repWith.size()));     	
 				
-	    		//is.setType(Material.getMaterial(randomReplacement));
-
 				event.getEntity().remove();
 				event.setCancelled(true);
 				
@@ -78,10 +89,21 @@ public class PwnChickenLayItemSpawnListener implements Listener
 		}
 		else if (PwnChickenLay.random(PwnChickenLay.layChance)) 
 		{	
-    		String randomReplacement = PwnChickenLay.replaceWith.get(PwnChickenLay.randomNumberGenerator.nextInt(PwnChickenLay.replaceWith.size()));
-    		
-    		//is.setType(Material.getMaterial(randomReplacement));
+
+			List<String> repWith = new ArrayList<String>();
 			
+			for (String key : plugin.getConfig().getConfigurationSection("replaceWith").getKeys(false))
+			{
+				Integer loop = plugin.getConfig().getInt("replaceWith."+key, 1);
+				for (int x = 0; x < loop; x = x+1)
+				{
+					repWith.add(key);
+				}
+			}
+			
+			// Pick an item from the replacement list randomly
+    		String randomReplacement = repWith.get(PwnChickenLay.randomNumberGenerator.nextInt(repWith.size()));   
+    		
 			event.getEntity().remove();
 			event.setCancelled(true);
 			
