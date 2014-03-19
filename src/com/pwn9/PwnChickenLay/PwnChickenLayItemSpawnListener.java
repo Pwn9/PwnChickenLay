@@ -25,7 +25,7 @@ public class PwnChickenLayItemSpawnListener implements Listener
 	    this.plugin = plugin;
 	}
 
-	// List for the ItemSpawnEvent and then kick it to the spawnCheck function 
+	// List for the ItemSpawnEvent and then do stuff with it
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onSpawn(ItemSpawnEvent event) 
 	{
@@ -70,23 +70,16 @@ public class PwnChickenLayItemSpawnListener implements Listener
 				// Pick an item from the replacement list randomly
 				String randomReplacement = repWith.get(PwnChickenLay.randomNumberGenerator.nextInt(repWith.size()));     	
 				
+				// Cancel event and remove the egg
 				event.getEntity().remove();
 				event.setCancelled(true);
 				
-				if (Material.getMaterial(randomReplacement) != Material.AIR) 
-				{
-					ItemStack drop = new ItemStack(Material.getMaterial(randomReplacement), 1);
-					eworld.dropItem(eLoc, drop);
-				}
-				
-	    		// log if debug_log is enabled
-				if (PwnChickenLay.logEnabled)
-				{		
-					PwnChickenLay.logToFile("Chicken laid: " + randomReplacement + " in world: " + world);
-				}
-				
+				// doReplacement func
+				this.doReplacement(eworld, eLoc, randomReplacement);			
+	
 			}
 		}
+		// use global default replacement configurations
 		else if (PwnChickenLay.random(PwnChickenLay.layChance)) 
 		{	
 
@@ -104,20 +97,12 @@ public class PwnChickenLayItemSpawnListener implements Listener
 			// Pick an item from the replacement list randomly
     		String randomReplacement = repWith.get(PwnChickenLay.randomNumberGenerator.nextInt(repWith.size()));   
     		
+    		// Cancel event and remove the egg
 			event.getEntity().remove();
 			event.setCancelled(true);
 			
-			if (Material.getMaterial(randomReplacement) != Material.AIR) 
-			{
-				ItemStack drop = new ItemStack(Material.getMaterial(randomReplacement), 1);
-				eworld.dropItem(eLoc, drop);
-			}
-			
-    		// log if debug_log is enabled
-			if (PwnChickenLay.logEnabled)
-			{		
-				PwnChickenLay.logToFile("Chicken laid: " + randomReplacement + " in world: " + world);
-			}	
+			// doReplacement func
+			this.doReplacement(eworld, eLoc, randomReplacement);	
 			
 		}
 		else 
@@ -129,5 +114,27 @@ public class PwnChickenLayItemSpawnListener implements Listener
 			}					
 		}
 		
-	}  
+	}
+	
+	// routine to do replacement in world at location with random replacement
+	public void doReplacement(World eworld, Location eLoc, String randomReplacement ) 
+	{
+		String world = eworld.getName();
+		
+		// To-do: Check the randomReplacment string here to see if it is a standard material or a specialized item defined elsewhere with enchants and lore
+		// could do this with a special string value of some kind and link it to defined items elsewhere in the config
+		
+		if (Material.getMaterial(randomReplacement) != Material.AIR) 
+		{
+			ItemStack drop = new ItemStack(Material.getMaterial(randomReplacement), 1);
+			eworld.dropItem(eLoc, drop);
+		}
+		
+		// log if debug_log is enabled
+		if (PwnChickenLay.logEnabled)
+		{		
+			PwnChickenLay.logToFile("Chicken laid: " + randomReplacement + " in world: " + world);
+		}	
+		
+	}
 }
