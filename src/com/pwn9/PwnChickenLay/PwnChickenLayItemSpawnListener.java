@@ -1,11 +1,15 @@
 package com.pwn9.PwnChickenLay;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -14,6 +18,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 public class PwnChickenLayItemSpawnListener implements Listener 
 {
@@ -121,10 +127,60 @@ public class PwnChickenLayItemSpawnListener implements Listener
 	{
 		String world = eworld.getName();
 		
+		// log if debug_log is enabled
+		if (PwnChickenLay.logEnabled)
+		{		
+			PwnChickenLay.logToFile("Attempting to lay: " + randomReplacement + " in world: " + world);
+		}	
+		
 		// To-do: Check the randomReplacment string here to see if it is a standard material or a specialized item defined elsewhere with enchants and lore
 		// could do this with a special string value of some kind and link it to defined items elsewhere in the config
+		if (randomReplacement.startsWith("_")) 
+		{
+			String specialReplacement = randomReplacement.substring(1);
+			String specialType = plugin.getConfig().getString("special."+specialReplacement+".type");
+			// Setup item stack
+			ItemStack getSpecial = new ItemStack(Material.getMaterial(specialType));
+			// Setup special enchant map
+			Map<Enchantment, Integer> specialEnchants = new HashMap<Enchantment, Integer>();
+			// Setup special config map
+			Map<String, Object> getSpecialEnchants = plugin.getConfig().getConfigurationSection("special."+specialReplacement+".enchants").getValues(false);
+			// Name
+			String getSpecialName = plugin.getConfig().getString("special."+specialReplacement+".name");
+			// Lore
+			List<String> getSpecialLore = plugin.getConfig().getStringList("special."+specialReplacement+".lore");
+			// Colors (if leather)
+			String getSpecialColor = plugin.getConfig().getString("special."+specialReplacement+".color", "none");
+
+			for (String key : getSpecialEnchants.keySet()) 
+			{
+				specialEnchants.put(Enchantment.getByName(key), (Integer) getSpecialEnchants.get(key));
+			}
+			
+			getSpecial.addEnchantments(specialEnchants);
+			// Set lore and displayname item meta
+			if(getSpecial.hasItemMeta()) 
+			{
+				// create item meta variable
+				ItemMeta im = getSpecial.getItemMeta();
+				// is it leather?
+				if((im instanceof LeatherArmorMeta) && (getSpecialColor != "none")) 
+				{
+					((LeatherArmorMeta) im).setColor(Color.fromRGB(Integer.decode(getSpecialColor)));
+				}
+				// set item meta display name
+				im.setDisplayName(getSpecialName);
+				// set item meta lore
+				im.setLore(getSpecialLore);
+				// put updated item meta on item
+				getSpecial.setItemMeta(im);				
+			}	
+			
+			eworld.dropItem(eLoc, getSpecial);	
+		}
 		
-		if (Material.getMaterial(randomReplacement) != Material.AIR) 
+		// if not a special item, then is a standard drop 
+		else if ((Material.getMaterial(randomReplacement) != Material.AIR) && (Material.getMaterial(randomReplacement) != null)) 
 		{
 			ItemStack drop = new ItemStack(Material.getMaterial(randomReplacement), 1);
 			eworld.dropItem(eLoc, drop);

@@ -27,7 +27,23 @@ perWorld:
       DIAMOND: 1
       STONE: 30
       AIR: 5
+      _chicken_boots: 1
 
+# Special item drops, these can be anything you want, just create an item like the example, the 
+# "type" needs to be an official bukkit item, you can apply enchantments, item name, lore and 
+# color if the item can have them. This is a very BETA feature and may have some bugs so be 
+# careful! To link the special item put it in your replaceWith area with an underscore like so
+# _mySpecialItemName
+special:
+    chicken_boots: 
+        type: LEATHER_BOOTS
+        enchants: 
+            PROTECTION_ENVIRONMENTAL: 1
+        name: "Chicken Boots"
+        lore: 
+            - "From the chicken gods"
+        color: 0x00FF00     
+        
 # Enable logging (for debugging, generally leave this false unless you are having problems)
 # Note that on production servers with lots of chicken farms this log could get very big!
 debug_log: false
