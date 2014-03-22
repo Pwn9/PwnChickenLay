@@ -139,39 +139,70 @@ public class PwnChickenLayItemSpawnListener implements Listener
 		{
 			String specialReplacement = randomReplacement.substring(1);
 			String specialType = plugin.getConfig().getString("special."+specialReplacement+".type");
+			
+			String getSpecialName;
+			List<String> getSpecialLore;
+			String getSpecialColor;
+			Map<String, Object> getSpecialEnchants;
+			
+			// Get datavalue
+			short dataValue = (short) plugin.getConfig().getInt("special."+specialReplacement+".data_value", 0);
+			
 			// Setup item stack
-			ItemStack getSpecial = new ItemStack(Material.getMaterial(specialType));
+			ItemStack getSpecial = new ItemStack(Material.getMaterial(specialType), 1, (short) dataValue );
+			
 			// Setup special enchant map
 			Map<Enchantment, Integer> specialEnchants = new HashMap<Enchantment, Integer>();
+			
 			// Setup special config map
-			Map<String, Object> getSpecialEnchants = plugin.getConfig().getConfigurationSection("special."+specialReplacement+".enchants").getValues(false);
-			// Name
-			String getSpecialName = plugin.getConfig().getString("special."+specialReplacement+".name");
-			// Lore
-			List<String> getSpecialLore = plugin.getConfig().getStringList("special."+specialReplacement+".lore");
-			// Colors (if leather)
-			String getSpecialColor = plugin.getConfig().getString("special."+specialReplacement+".color", "none");
-
-			for (String key : getSpecialEnchants.keySet()) 
+			if (plugin.getConfig().isSet("special."+specialReplacement+".enchants"))
 			{
-				specialEnchants.put(Enchantment.getByName(key), (Integer) getSpecialEnchants.get(key));
+				getSpecialEnchants = plugin.getConfig().getConfigurationSection("special."+specialReplacement+".enchants").getValues(false);
+
+				for (String key : getSpecialEnchants.keySet()) 
+				{
+					specialEnchants.put(Enchantment.getByName(key), (Integer) getSpecialEnchants.get(key));
+				}
 			}
 			
 			getSpecial.addEnchantments(specialEnchants);
 			// Set lore and displayname item meta
 			if(getSpecial.hasItemMeta()) 
 			{
+
 				// create item meta variable
 				ItemMeta im = getSpecial.getItemMeta();
-				// is it leather?
-				if((im instanceof LeatherArmorMeta) && (getSpecialColor != "none")) 
-				{
-					((LeatherArmorMeta) im).setColor(Color.fromRGB(Integer.decode(getSpecialColor)));
+				
+				// Name
+				if (plugin.getConfig().isSet("special."+specialReplacement+".name"))
+				{			
+					getSpecialName = plugin.getConfig().getString("special."+specialReplacement+".name");
+					
+					// set item meta display name
+					im.setDisplayName(getSpecialName);					
 				}
-				// set item meta display name
-				im.setDisplayName(getSpecialName);
-				// set item meta lore
-				im.setLore(getSpecialLore);
+				
+				// Lore
+				if (plugin.getConfig().isSet("special."+specialReplacement+".lore"))
+				{			
+					getSpecialLore = plugin.getConfig().getStringList("special."+specialReplacement+".lore");
+
+					// set item meta lore
+					im.setLore(getSpecialLore);
+				}
+				
+				// Colors (if leather)
+				if (plugin.getConfig().isSet("special."+specialReplacement+".color"))
+				{			
+					getSpecialColor = plugin.getConfig().getString("special."+specialReplacement+".color");
+
+					// is it leather?
+					if((im instanceof LeatherArmorMeta)) 
+					{
+						((LeatherArmorMeta) im).setColor(Color.fromRGB(Integer.decode(getSpecialColor)));
+					}
+				}
+
 				// put updated item meta on item
 				getSpecial.setItemMeta(im);				
 			}	

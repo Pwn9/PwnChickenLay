@@ -1,5 +1,6 @@
 # The chance a chicken will lay an egg, or something else.
 # 100 = Always lay eggs.
+# 50 = Half the time lay an egg, the other half the time lay a replacement
 # 0 = Always lay replacement.
 layChance: 50
 
@@ -22,17 +23,18 @@ enabled_worlds:
 perWorld:
   example_world:
     enabled: true
-    layChance: 0
+    layChance: 50
     replaceWith:
       DIAMOND: 1
-      STONE: 30
-      AIR: 5
+      STONE: 5
+      AIR: 30
       _chicken_boots: 1
+      _cyan_wool: 1
 
 # Special item drops, these can be anything you want, just create an item like the example, the 
-# "type" needs to be an official bukkit item, you can apply enchantments, item name, lore and 
-# color if the item can have them. This is a very BETA feature and may have some bugs so be 
-# careful! To link the special item put it in your replaceWith area with an underscore like so
+# "type" needs to be an official bukkit item, you can apply enchantments, item name, data value, 
+# lore and color if the item can have them. This is a very BETA feature and may have some bugs so be 
+# careful! To link the special item put it in your replaceWith area with an underscore like so:
 # _mySpecialItemName
 special:
     chicken_boots: 
@@ -43,7 +45,55 @@ special:
         lore: 
             - "From the chicken gods"
         color: 0x00FF00     
-        
+    white_wool:
+        type: WOOL
+        data_value: 0
+    orange_wool:
+        type: WOOL
+        data_value: 1
+    magenta_wool:
+        type: WOOL
+        data_value: 2    
+    light_blue_wool:
+        type: WOOL
+        data_value: 3   
+    yellow_wool:
+        type: WOOL
+        data_value: 4   
+    lime_wool:
+        type: WOOL
+        data_value: 5   
+    pink_wool:
+        type: WOOL
+        data_value: 6   
+    gray_wool:
+        type: WOOL
+        data_value: 7  
+    light_gray_wool:
+        type: WOOL
+        data_value: 8   
+    cyan_wool:
+        type: WOOL
+        data_value: 9   
+    purple_wool:
+        type: WOOL
+        data_value: 10    
+    blue_wool:
+        type: WOOL
+        data_value: 11   
+    brown_wool:
+        type: WOOL
+        data_value: 12    
+    green_wool:
+        type: WOOL
+        data_value: 13    
+    red_wool:
+        type: WOOL
+        data_value: 14    
+    black_wool:
+        type: WOOL
+        data_value: 15    
+         
 # Enable logging (for debugging, generally leave this false unless you are having problems)
 # Note that on production servers with lots of chicken farms this log could get very big!
 debug_log: false
