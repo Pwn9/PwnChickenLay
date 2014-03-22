@@ -133,8 +133,7 @@ public class PwnChickenLayItemSpawnListener implements Listener
 			PwnChickenLay.logToFile("Attempting to lay: " + randomReplacement + " in world: " + world);
 		}	
 		
-		// To-do: Check the randomReplacment string here to see if it is a standard material or a specialized item defined elsewhere with enchants and lore
-		// could do this with a special string value of some kind and link it to defined items elsewhere in the config
+		// Check the randomReplacment string here to see if it is a standard material or a specialized item with enchants and lore
 		if (randomReplacement.startsWith("_")) 
 		{
 			String specialReplacement = randomReplacement.substring(1);
