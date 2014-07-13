@@ -1,3 +1,10 @@
+/bin
+.gitignore
+.classpath
+.project
+.gitattributes
+.settings
+
 #################
 ## Eclipse
 #################
