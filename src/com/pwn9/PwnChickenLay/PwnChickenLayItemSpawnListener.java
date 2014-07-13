@@ -59,31 +59,73 @@ public class PwnChickenLayItemSpawnListener implements Listener
 		// check per world settings
 		if (plugin.getConfig().getBoolean("perWorld."+world+".enabled")) 
 		{
-			if (PwnChickenLay.random(plugin.getConfig().getInt("perWorld."+world+".layChance")))
-			{	
+			
+			// check for biome specific settings in this world
+			String ebiome = event.getLocation().getWorld().getBiome(event.getLocation().getBlockX(), event.getLocation().getBlockZ()).toString();
+			
+			if (plugin.getConfig().getBoolean("perWorld."+world+".perBiome."+ebiome+".enabled"))
+			{
 				
-				List<String> repWith = new ArrayList<String>();
-				
-				for (String key : plugin.getConfig().getConfigurationSection("perWorld."+world+".replaceWith").getKeys(false))
-				{
-					Integer loop = plugin.getConfig().getInt("perWorld."+world+".replaceWith."+key, 1);
-					for (int x = 0; x < loop; x = x+1)
+				if (PwnChickenLay.random(plugin.getConfig().getInt("perWorld."+world+".perBiome."+ebiome+".layChance")))
+				{	
+					
+					List<String> repWith = new ArrayList<String>();
+					
+					for (String key : plugin.getConfig().getConfigurationSection("perWorld."+world+".perBiome."+ebiome+".replaceWith").getKeys(false))
 					{
-						repWith.add(key);
+						Integer loop = plugin.getConfig().getInt("perWorld."+world+".perBiome."+ebiome+".replaceWith."+key, 1);
+						for (int x = 0; x < loop; x = x+1)
+						{
+							repWith.add(key);
+						}
 					}
+					
+					// Pick an item from the replacement list randomly
+					String randomReplacement = repWith.get(PwnChickenLay.randomNumberGenerator.nextInt(repWith.size()));     	
+					
+					// Cancel event and remove the egg
+					event.getEntity().remove();
+					event.setCancelled(true);
+					
+					// doReplacement func
+					this.doReplacement(eworld, eLoc, randomReplacement);			
+		
 				}
 				
-				// Pick an item from the replacement list randomly
-				String randomReplacement = repWith.get(PwnChickenLay.randomNumberGenerator.nextInt(repWith.size()));     	
-				
-				// Cancel event and remove the egg
-				event.getEntity().remove();
-				event.setCancelled(true);
-				
-				// doReplacement func
-				this.doReplacement(eworld, eLoc, randomReplacement);			
-	
 			}
+			
+			// not biome specific so do world default
+			else 
+			{
+			
+				if (PwnChickenLay.random(plugin.getConfig().getInt("perWorld."+world+".layChance")))
+				{	
+					
+					List<String> repWith = new ArrayList<String>();
+					
+					for (String key : plugin.getConfig().getConfigurationSection("perWorld."+world+".replaceWith").getKeys(false))
+					{
+						Integer loop = plugin.getConfig().getInt("perWorld."+world+".replaceWith."+key, 1);
+						for (int x = 0; x < loop; x = x+1)
+						{
+							repWith.add(key);
+						}
+					}
+					
+					// Pick an item from the replacement list randomly
+					String randomReplacement = repWith.get(PwnChickenLay.randomNumberGenerator.nextInt(repWith.size()));     	
+					
+					// Cancel event and remove the egg
+					event.getEntity().remove();
+					event.setCancelled(true);
+					
+					// doReplacement func
+					this.doReplacement(eworld, eLoc, randomReplacement);			
+		
+				}
+				
+			}
+			
 		}
 		// use global default replacement configurations
 		else if (PwnChickenLay.random(PwnChickenLay.layChance)) 

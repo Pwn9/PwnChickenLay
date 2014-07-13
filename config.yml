@@ -8,28 +8,39 @@ layChance: 50
 # Valid material names can be found at http://jd.bukkit.org/rb/apidocs/org/bukkit/Material.html
 # AIR is a valid replacement which when paired with layChance 0, will make chickens lay nothing.
 replaceWith: 
-  CLAY_BRICK: 1
-  AIR: 10
+    CLAY_BRICK: 1
+    AIR: 10
   
 # Which worlds should this be enabled in?
 # Unlisted worlds will allow normal egg laying.
 enabled_worlds:
-  - example_world
-  - example_world_nether
+    - example_world
+    - example_world_nether
 
 # Customized world settings, just add world name, enabled:true, layChance and replaceWith for 
 # the specific world. Any enabled_worlds that are NOT in perWorld, will use the default settings. 
 # Any worlds added to perWorld that are NOT in enabled worlds will still be disabled.
 perWorld:
-  example_world:
-    enabled: true
-    layChance: 50
-    replaceWith:
-      DIAMOND: 1
-      STONE: 5
-      AIR: 30
-      _chicken_boots: 1
-      _cyan_wool: 1
+    example_world:
+        enabled: true
+        layChance: 50
+        replaceWith:
+            DIAMOND: 1
+            STONE: 5
+            AIR: 30
+            _chicken_boots: 1
+            _cyan_wool: 1
+        perBiome:
+            PLAINS:
+                enabled: true
+                layChance: 50
+                replaceWith:
+                    _chicken_boots: 1
+                    _cyan_wool: 1 
+                    _lime_wool: 1
+                    _brown_wool: 1
+                    _magenta_wool: 1
+                    GOLD_INGOT: 1
 
 # Special item drops, these can be anything you want, just create an item like the example, the 
 # "type" needs to be an official bukkit item, you can apply enchantments, item name, data value, 
