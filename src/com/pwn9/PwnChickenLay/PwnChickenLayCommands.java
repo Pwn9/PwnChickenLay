@@ -1,5 +1,6 @@
 package com.pwn9.PwnChickenLay;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,7 +21,7 @@ public class PwnChickenLayCommands implements CommandExecutor
 	{		
 		if (!(sender instanceof Player) && !(sender instanceof ConsoleCommandSender))
 		{
-			sender.sendMessage("§cThis command can only be run by a player.");
+			sender.sendMessage(ChatColor.GREEN + "This command can only be run by a player.");
 		}
 		else
 		{
@@ -41,7 +42,7 @@ public class PwnChickenLayCommands implements CommandExecutor
            {
               plugin.reloadConfig();
               plugin.loadConfig();
-              sender.sendMessage("§cPwnChickenLay: Settings reloaded!");
+              sender.sendMessage(ChatColor.GREEN + "PwnChickenLay: Settings reloaded!");
 				
               // log if debug_log is enabled
               if (PwnChickenLay.logEnabled)
@@ -53,7 +54,7 @@ public class PwnChickenLayCommands implements CommandExecutor
            {
               plugin.saveConfig();
               plugin.loadConfig();
-              sender.sendMessage("§cPwnChickenLay: Settings saved!");
+              sender.sendMessage(ChatColor.GREEN + "PwnChickenLay: Settings saved!");
               
               // log if debug_log is enabled
               if (PwnChickenLay.logEnabled)
@@ -63,13 +64,13 @@ public class PwnChickenLayCommands implements CommandExecutor
            }
            else 
            {
-        	   sender.sendMessage("§cPwnChickenLay Usage: /pwnlay <reload|save>"); 
+        	   sender.sendMessage(ChatColor.GREEN + "PwnChickenLay Usage: /pwnlay <reload|save>"); 
            }
         	   
 		}
 		else 
 		{
-    	   sender.sendMessage("§cUsage: pwnlay <reload|save>");     
+    	   sender.sendMessage(ChatColor.GREEN + "Usage: pwnlay <reload|save>");     
 	    }
 	}
 	

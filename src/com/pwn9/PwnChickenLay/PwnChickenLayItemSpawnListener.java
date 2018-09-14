@@ -185,12 +185,9 @@ public class PwnChickenLayItemSpawnListener implements Listener
 			List<String> getSpecialLore;
 			String getSpecialColor;
 			Map<String, Object> getSpecialEnchants;
-			
-			// Get datavalue
-			short dataValue = (short) plugin.getConfig().getInt("special."+specialReplacement+".data_value", 0);
-			
+					
 			// Setup item stack
-			ItemStack getSpecial = new ItemStack(Material.getMaterial(specialType), 1, (short) dataValue );
+			ItemStack getSpecial = new ItemStack(Material.getMaterial(specialType), 1);
 			
 			// Setup special enchant map
 			Map<Enchantment, Integer> specialEnchants = new HashMap<Enchantment, Integer>();
