@@ -10,7 +10,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -122,4 +124,15 @@ public class PwnChickenLay extends JavaPlugin
     	  return s;
     }		
 	
+    // function to colorize strings from the config
+    public static String colorize(String message)
+    {
+        return ChatColor.translateAlternateColorCodes('&', message);
+    }    
+
+    // function to colorize strings from the config
+    public static List<String> colorize(List<String> message)
+    {
+        return message.stream().map(s -> ChatColor.translateAlternateColorCodes('&', s)).collect(Collectors.toList());
+    }    
 }

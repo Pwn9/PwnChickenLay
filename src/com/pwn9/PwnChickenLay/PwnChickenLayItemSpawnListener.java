@@ -217,7 +217,7 @@ public class PwnChickenLayItemSpawnListener implements Listener
 					getSpecialName = plugin.getConfig().getString("special."+specialReplacement+".name");
 					
 					// set item meta display name
-					im.setDisplayName(getSpecialName);					
+					im.setDisplayName(PwnChickenLay.colorize(getSpecialName));					
 				}
 				
 				// Lore
@@ -225,8 +225,8 @@ public class PwnChickenLayItemSpawnListener implements Listener
 				{			
 					getSpecialLore = plugin.getConfig().getStringList("special."+specialReplacement+".lore");
 
-					// set item meta lore
-					im.setLore(getSpecialLore);
+					// set item meta lore - colorize with list string
+					im.setLore(PwnChickenLay.colorize(getSpecialLore));
 				}
 				
 				// Colors (if leather)
