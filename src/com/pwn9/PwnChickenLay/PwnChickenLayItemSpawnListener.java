@@ -8,10 +8,12 @@ import java.util.Map;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -46,12 +48,14 @@ public class PwnChickenLayItemSpawnListener implements Listener
 		// if item is anything other than an egg, return
 		if(is.getType() != Material.EGG) return;
 
-		List<Entity> nearby = test.getNearbyEntities(0.01, 0.3, 0.01);
+		List<Entity> nearby = test.getNearbyEntities(0.1, 0.3, 0.1);
 		
 		// check if a player entity is at the same location as the ItemSpawnEvent - if so, probably not a chicken lay and return
+		// do the same with item frame. 
 		for(int i = 0; i < nearby.size(); i++) 
 		{
 			if (nearby.get(i) instanceof Player) return;
+			if (nearby.get(i) instanceof ItemFrame) return;
 		}
 		
 		String world = eworld.getName();
@@ -61,7 +65,7 @@ public class PwnChickenLayItemSpawnListener implements Listener
 		{
 			
 			// check for biome specific settings in this world
-			String ebiome = event.getLocation().getWorld().getBiome(event.getLocation().getBlockX(), event.getLocation().getBlockZ()).toString();
+			String ebiome = event.getLocation().getBlock().getBiome().toString();
 			
 			if (plugin.getConfig().getBoolean("perWorld."+world+".perBiome."+ebiome+".enabled"))
 			{
@@ -199,7 +203,8 @@ public class PwnChickenLayItemSpawnListener implements Listener
 
 				for (String key : getSpecialEnchants.keySet()) 
 				{
-					specialEnchants.put(Enchantment.getByName(key), (Integer) getSpecialEnchants.get(key));
+					// deprecated - specialEnchants.put(Enchantment.getByName(key), (Integer) getSpecialEnchants.get(key));
+					specialEnchants.put(Enchantment.getByKey(NamespacedKey.minecraft(key)), (Integer) getSpecialEnchants.get(key));
 				}
 			}
 			
