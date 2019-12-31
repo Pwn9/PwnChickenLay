@@ -48,14 +48,20 @@ public class PwnChickenLayItemSpawnListener implements Listener
 		// if item is anything other than an egg, return
 		if(is.getType() != Material.EGG) return;
 
-		List<Entity> nearby = test.getNearbyEntities(0.1, 0.3, 0.1);
+		List<Entity> nearby = test.getNearbyEntities(0.01, 0.3, 0.01);
 		
 		// check if a player entity is at the same location as the ItemSpawnEvent - if so, probably not a chicken lay and return
 		// do the same with item frame. 
 		for(int i = 0; i < nearby.size(); i++) 
 		{
-			if (nearby.get(i) instanceof Player) return;
-			if (nearby.get(i) instanceof ItemFrame) return;
+			if (nearby.get(i) instanceof Player) {
+				PwnChickenLay.logToFile("Egg spawn event was from a Player");
+				return;
+			}
+			if (nearby.get(i) instanceof ItemFrame) {
+				PwnChickenLay.logToFile("Egg spawn event was from an ItemFrame");
+				return;
+			}
 		}
 		
 		String world = eworld.getName();
@@ -162,7 +168,7 @@ public class PwnChickenLayItemSpawnListener implements Listener
 			// log if debug_log is enabled
 			if (PwnChickenLay.logEnabled)
 			{		
-				PwnChickenLay.logToFile("Chicken laid: Default egg, in world: " + world);
+				PwnChickenLay.logToFile("Chicken laid: Default egg, in world: " + world + " Location: " + eLoc.getBlockX() + ", " + eLoc.getBlockY() + ", " + eLoc.getBlockZ());
 			}					
 		}
 		
@@ -203,8 +209,8 @@ public class PwnChickenLayItemSpawnListener implements Listener
 
 				for (String key : getSpecialEnchants.keySet()) 
 				{
-					// deprecated - specialEnchants.put(Enchantment.getByName(key), (Integer) getSpecialEnchants.get(key));
-					specialEnchants.put(Enchantment.getByKey(NamespacedKey.minecraft(key)), (Integer) getSpecialEnchants.get(key));
+					specialEnchants.put(Enchantment.getByName(key), (Integer) getSpecialEnchants.get(key));
+					//the above is deprecated, this is supposed to work but doesnt - specialEnchants.put(Enchantment.getByKey(NamespacedKey.minecraft(key)), (Integer) getSpecialEnchants.get(key));
 				}
 			}
 			
@@ -263,7 +269,7 @@ public class PwnChickenLayItemSpawnListener implements Listener
 		// log if debug_log is enabled
 		if (PwnChickenLay.logEnabled)
 		{		
-			PwnChickenLay.logToFile("Chicken laid: " + randomReplacement + " in world: " + world);
+			PwnChickenLay.logToFile("Chicken laid: " + randomReplacement + " in world: " + world + " Location: " + eLoc.getBlockX() + ", " + eLoc.getBlockY() + ", " + eLoc.getBlockZ());
 		}	
 		
 	}
