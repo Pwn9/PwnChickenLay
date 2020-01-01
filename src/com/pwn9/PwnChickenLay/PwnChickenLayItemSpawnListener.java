@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.ItemFrame;
@@ -58,9 +59,19 @@ public class PwnChickenLayItemSpawnListener implements Listener
 				PwnChickenLay.logToFile("Egg spawn event was from a Player");
 				return;
 			}
-			if (nearby.get(i) instanceof ItemFrame) {
+			else if (nearby.get(i) instanceof ItemFrame) {
 				PwnChickenLay.logToFile("Egg spawn event was from an ItemFrame");
 				return;
+			}
+			else if (nearby.get(i) instanceof Chicken) {
+				// do something with the actual chicken here?
+				Chicken chic = (Chicken) nearby.get(i);
+				if (chic.getCustomName() != null) {
+					PwnChickenLay.logToFile("Nearby Entities: " + nearby.size() + " - Egg spawn event was from " + chic.getCustomName());
+				}
+			}	
+			else {
+				// something else
 			}
 		}
 		
