@@ -12,77 +12,60 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Chicken;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
-import org.bukkit.entity.ItemFrame;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.ItemSpawnEvent;
+import org.bukkit.event.entity.EntityDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-public class PwnChickenLayItemSpawnListener implements Listener 
+public class PwnChickenLayEggDrop implements Listener 
 {
     private final PwnChickenLay plugin;
     
-	public PwnChickenLayItemSpawnListener(PwnChickenLay plugin) 
+	public PwnChickenLayEggDrop(PwnChickenLay plugin) 
 	{
 	    plugin.getServer().getPluginManager().registerEvents(this, plugin);    
 	    this.plugin = plugin;
 	}
 
-	// List for the ItemSpawnEvent and then do stuff with it
+	// List for the item drop and then do stuff with it
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onSpawn(ItemSpawnEvent event) 
+	public void onDrop(EntityDropItemEvent event) 
 	{
-		World eworld = event.getLocation().getWorld();
-		Location eLoc = event.getLocation();
+		
+		World eworld = event.getEntity().getWorld();
+		Location eLoc = event.getEntity().getLocation();
+		Item i = event.getItemDrop();
+		
 		// If plugin is not enabled in this world, return
 		if (!PwnChickenLay.isEnabledIn(eworld.getName())) return; 
-
-		Item test = (Item) event.getEntity();
-		ItemStack is = test.getItemStack();
 		
-		// if item is anything other than an egg, return
-		if(is.getType() != Material.EGG) return;
-
-		List<Entity> nearby = test.getNearbyEntities(0.01, 0.3, 0.01);
-		
-		// check if a player entity is at the same location as the ItemSpawnEvent - if so, probably not a chicken lay and return
-		// do the same with item frame. 
-		for(int i = 0; i < nearby.size(); i++) 
-		{
-			if (nearby.get(i) instanceof Player) {
-				PwnChickenLay.logToFile("Egg spawn event was from a Player");
-				return;
-			}
-			else if (nearby.get(i) instanceof ItemFrame) {
-				PwnChickenLay.logToFile("Egg spawn event was from an ItemFrame");
-				return;
-			}
-			else if (nearby.get(i) instanceof Chicken) {
-				// do something with the actual chicken here?
-				Chicken chic = (Chicken) nearby.get(i);
-				if (chic.getCustomName() != null) {
-					PwnChickenLay.logToFile("Nearby Entities: " + nearby.size() + " - Egg spawn event was from " + chic.getCustomName());
-				}
-			}	
-			else {
-				// something else
-			}
-		}
+		// If item is not an egg, return
+		if ((i.getItemStack() == null) || (i.getItemStack().getType()) == null || (i.getItemStack().getType() != Material.EGG)) return;
+			
+		EntityType e  = event.getEntity().getType();
+		// if not a chicken, return
+		if (e != EntityType.CHICKEN) return;
 		
 		String world = eworld.getName();
+		
+		// should be safe to cast as chicken now
+		Chicken chic = (Chicken) event.getEntity();
+		
+		if (chic.getCustomName() != null) {
+			PwnChickenLay.logToFile("Egg spawn event was from custom chicken: " + chic.getCustomName());
+		}
 		
 		// check per world settings
 		if (plugin.getConfig().getBoolean("perWorld."+world+".enabled")) 
 		{
 			
 			// check for biome specific settings in this world
-			String ebiome = event.getLocation().getBlock().getBiome().toString();
+			String ebiome = eLoc.getBlock().getBiome().toString();
 			
 			if (plugin.getConfig().getBoolean("perWorld."+world+".perBiome."+ebiome+".enabled"))
 			{
@@ -105,12 +88,16 @@ public class PwnChickenLayItemSpawnListener implements Listener
 					String randomReplacement = repWith.get(PwnChickenLay.randomNumberGenerator.nextInt(repWith.size()));     	
 					
 					// Cancel event and remove the egg
-					event.getEntity().remove();
+					event.getItemDrop().remove();
 					event.setCancelled(true);
 					
 					// doReplacement func
 					this.doReplacement(eworld, eLoc, randomReplacement);			
 		
+				}
+				else 
+				{	
+					PwnChickenLay.logToFile("Chicken laid: Default egg, in world: " + world + " Location: " + eLoc.getBlockX() + ", " + eLoc.getBlockY() + ", " + eLoc.getBlockZ());	
 				}
 				
 			}
@@ -137,13 +124,17 @@ public class PwnChickenLayItemSpawnListener implements Listener
 					String randomReplacement = repWith.get(PwnChickenLay.randomNumberGenerator.nextInt(repWith.size()));     	
 					
 					// Cancel event and remove the egg
-					event.getEntity().remove();
+					event.getItemDrop().remove();
 					event.setCancelled(true);
 					
 					// doReplacement func
 					this.doReplacement(eworld, eLoc, randomReplacement);			
 		
 				}
+				else 
+				{	
+					PwnChickenLay.logToFile("Chicken laid: Default egg, in world: " + world + " Location: " + eLoc.getBlockX() + ", " + eLoc.getBlockY() + ", " + eLoc.getBlockZ());	
+				}				
 				
 			}
 			
@@ -167,7 +158,7 @@ public class PwnChickenLayItemSpawnListener implements Listener
     		String randomReplacement = repWith.get(PwnChickenLay.randomNumberGenerator.nextInt(repWith.size()));   
     		
     		// Cancel event and remove the egg
-			event.getEntity().remove();
+    		event.getItemDrop().remove();
 			event.setCancelled(true);
 			
 			// doReplacement func
@@ -181,10 +172,9 @@ public class PwnChickenLayItemSpawnListener implements Listener
 			{		
 				PwnChickenLay.logToFile("Chicken laid: Default egg, in world: " + world + " Location: " + eLoc.getBlockX() + ", " + eLoc.getBlockY() + ", " + eLoc.getBlockZ());
 			}					
-		}
-		
+		}	
 	}
-	
+		
 	// routine to do replacement in world at location with random replacement
 	public void doReplacement(World eworld, Location eLoc, String randomReplacement ) 
 	{

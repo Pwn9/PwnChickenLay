@@ -8,7 +8,7 @@ layChance: 50
 # Valid material names can be found at http://jd.bukkit.org/rb/apidocs/org/bukkit/Material.html
 # AIR is a valid replacement which when paired with layChance 0, will make chickens lay nothing.
 replaceWith: 
-    CLAY_BRICK: 1
+    BRICK: 1
     AIR: 10
   
 # Which worlds should this be enabled in?
@@ -25,7 +25,7 @@ perWorld:
         enabled: true
         layChance: 50
         replaceWith:
-            CLAY_BRICK: 1
+            BRICK: 1
             _chicken_boots: 1
             GOLD_INGOT: 1
             AIR: 10
@@ -34,7 +34,7 @@ perWorld:
                 enabled: true
                 layChance: 50
                 replaceWith:
-                    CLAY_BRICK: 1
+                    BRICK: 1
                     _chicken_boots: 1
                     GOLD_INGOT: 1
                     AIR: 10
@@ -42,7 +42,7 @@ perWorld:
                 enabled: true
                 layChance: 50
                 replaceWith:
-                    CLAY_BRICK: 1
+                    BRICK: 1
                     _chicken_pants: 1
                     GOLD_INGOT: 1
                     AIR: 10
@@ -50,7 +50,7 @@ perWorld:
                 enabled: true
                 layChance: 50
                 replaceWith:
-                    CLAY_BRICK: 1
+                    BRICK: 1
                     _chicken_hat: 1
                     GOLD_INGOT: 1
                     AIR: 10 
@@ -58,10 +58,21 @@ perWorld:
                 enabled: true
                 layChance: 50
                 replaceWith:
-                    CLAY_BRICK: 1
+                    BRICK: 1
                     _chicken_vest: 1
                     GOLD_INGOT: 1
                     AIR: 10                    
+
+custom:
+    Clucky: 
+        enabled: true
+        layChance: 50
+        replaceWith:
+            DIAMOND: 1
+            INK_SAC: 1
+            IRON_INGOT: 1
+            AIR: 10
+
 # Special item drops, these can be anything you want, just create an item like the example, the 
 # "type" needs to be an official bukkit item, you can apply enchantments, item name, data value, 
 # lore and color if the item can have them. This is a very BETA feature and may have some bugs so be 
@@ -100,6 +111,7 @@ special:
         lore: 
             - "From the chicken gods"
         color: 0x00FF00          
+
 # Enable logging (for debugging, generally leave this false unless you are having problems)
 # Note that on production servers with lots of chicken farms this log could get very big!
 debug_log: true

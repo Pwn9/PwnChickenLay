@@ -34,7 +34,7 @@ public class PwnChickenLay extends JavaPlugin
     	this.saveDefaultConfig();
     	
     	// Init Listener
-    	new PwnChickenLayItemSpawnListener(this);
+    	new PwnChickenLayEggDrop(this);
     	
     	// Get Data Folder
     	PwnChickenLay.dataFolder = getDataFolder();
