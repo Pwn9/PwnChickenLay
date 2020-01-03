@@ -63,6 +63,7 @@ perWorld:
                     GOLD_INGOT: 1
                     AIR: 10                    
 
+# Named chickens can lay eggs or replacements as well. Named chickens do not have per biome settings.
 custom:
     Clucky: 
         enabled: true

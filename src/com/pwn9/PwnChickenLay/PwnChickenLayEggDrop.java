@@ -12,6 +12,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Chicken;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
@@ -58,6 +59,40 @@ public class PwnChickenLayEggDrop implements Listener
 		
 		if (chic.getCustomName() != null) {
 			PwnChickenLay.logToFile("Egg spawn event was from custom chicken: " + chic.getCustomName());
+
+			// if there is a config for this custom name
+			if (plugin.getConfig().getBoolean("custom."+chic.getCustomName()+".enabled")) 
+			{
+				PwnChickenLay.logToFile("Config is set for custom chicken: " + chic.getCustomName());
+				
+				if (PwnChickenLay.random(plugin.getConfig().getInt("custom."+chic.getCustomName()+".layChance")))
+				{	
+					
+					List<String> repWith = new ArrayList<String>();
+					
+					for (String key : plugin.getConfig().getConfigurationSection("custom."+chic.getCustomName()+".replaceWith").getKeys(false))
+					{
+						Integer loop = plugin.getConfig().getInt("custom."+chic.getCustomName()+".replaceWith."+key, 1);
+						for (int x = 0; x < loop; x = x+1)
+						{
+							repWith.add(key);
+						}
+					}
+					
+					// Pick an item from the replacement list randomly
+					String randomReplacement = repWith.get(PwnChickenLay.randomNumberGenerator.nextInt(repWith.size()));     	
+					
+					// Cancel event and remove the egg
+					event.getItemDrop().remove();
+					event.setCancelled(true);
+					
+					// doReplacement func
+					this.doReplacement(eworld, eLoc, randomReplacement);			
+		
+					return;
+				}
+			}
+			
 		}
 		
 		// check per world settings
@@ -92,7 +127,9 @@ public class PwnChickenLayEggDrop implements Listener
 					event.setCancelled(true);
 					
 					// doReplacement func
-					this.doReplacement(eworld, eLoc, randomReplacement);			
+					this.doReplacement(eworld, eLoc, randomReplacement);
+					
+					return;
 		
 				}
 				else 
@@ -128,7 +165,9 @@ public class PwnChickenLayEggDrop implements Listener
 					event.setCancelled(true);
 					
 					// doReplacement func
-					this.doReplacement(eworld, eLoc, randomReplacement);			
+					this.doReplacement(eworld, eLoc, randomReplacement);
+					
+					return;
 		
 				}
 				else 
@@ -163,6 +202,8 @@ public class PwnChickenLayEggDrop implements Listener
 			
 			// doReplacement func
 			this.doReplacement(eworld, eLoc, randomReplacement);	
+			
+			return;
 			
 		}
 		else 
@@ -259,7 +300,13 @@ public class PwnChickenLayEggDrop implements Listener
 			
 			eworld.dropItem(eLoc, getSpecial);	
 		}
-		
+		// interface to spawn an entity rather than a material
+		else if (randomReplacement.startsWith("e_")) 
+		{	
+			EntityType e = EntityType.valueOf(randomReplacement.substring(2));
+			// so this is a bit hacky, still I want primed_tnt
+			eworld.spawnEntity(eLoc, e);
+		}
 		// if not a special item, then is a standard drop 
 		else if ((Material.getMaterial(randomReplacement) != Material.AIR) && (Material.getMaterial(randomReplacement) != null)) 
 		{
