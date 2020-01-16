@@ -8,11 +8,9 @@ import java.util.Map;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Chicken;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
@@ -300,13 +298,26 @@ public class PwnChickenLayEggDrop implements Listener
 			
 			eworld.dropItem(eLoc, getSpecial);	
 		}
+		
 		// interface to spawn an entity rather than a material
+		//TODO: add enum from config check
 		else if (randomReplacement.startsWith("e_")) 
 		{	
 			EntityType e = EntityType.valueOf(randomReplacement.substring(2));
 			// so this is a bit hacky, still I want primed_tnt
-			eworld.spawnEntity(eLoc, e);
+			try 
+			{
+				eworld.spawnEntity(eLoc, e);
+			}
+			catch (IllegalArgumentException err) 
+			{
+				if (PwnChickenLay.logEnabled)
+				{		
+					PwnChickenLay.logToFile("Tried to lay invalid entity: " + randomReplacement.substring(2) + " - check your config for invalid values.");
+				}					
+			}
 		}
+		
 		// if not a special item, then is a standard drop 
 		else if ((Material.getMaterial(randomReplacement) != Material.AIR) && (Material.getMaterial(randomReplacement) != null)) 
 		{
