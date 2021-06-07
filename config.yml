@@ -64,14 +64,17 @@ perWorld:
                     AIR: 10                    
 
 # Named chickens can lay eggs or replacements as well. Named chickens do not have per biome settings.
+# Note another setting below e_PRIMED_TNT.  The "e_" calls for an entity type instead of a material.
+# If this makes sense to you, you know what it can do, if not, avoid it as it is experimental 
 custom:
     Clucky: 
         enabled: true
-        layChance: 50
+        layChance: 0
         replaceWith:
             DIAMOND: 1
             INK_SAC: 1
             IRON_INGOT: 1
+            e_PRIMED_TNT: 1
             AIR: 10
 
 # Special item drops, these can be anything you want, just create an item like the example, the 
