@@ -49,7 +49,8 @@ public class PwnChickenLay extends JavaPlugin
     	getCommand("pwnlay").setExecutor(new PwnChickenLayCommands(this));
     		
 		// Start Metrics
-		Metrics metricslite = new Metrics(this, 3261);
+		int pluginId = 3261;
+		Metrics metrics = new Metrics(this, pluginId);
 		
 		if (PwnChickenLay.logEnabled)
 		{
