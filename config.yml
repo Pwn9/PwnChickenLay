@@ -74,7 +74,7 @@ custom:
             DIAMOND: 1
             INK_SAC: 1
             IRON_INGOT: 1
-            e_PRIMED_TNT: 1
+            e_TNT: 1
             AIR: 10
 
 # Special item drops, these can be anything you want, just create an item like the example, the 
